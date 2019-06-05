@@ -2,7 +2,7 @@ import setuptools
 
 setuptools.setup(
     name='substream',
-    version='0.0.7',
+    version='0.0.9',
     description='Transcribes audio files to .srt',
     long_description='Uses Google Cloud Speech to Text API to transcribe '
                      'audio files to the .srt format subtitles.',
