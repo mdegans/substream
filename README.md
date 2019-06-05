@@ -37,7 +37,7 @@ Cloud setup:
     ```
     
     On run, a temporary bucket will be created, the file uploaded, and
-    on completion or error, a [context manager](https://www.python.org/dev/peps/pep-0343/)
+    on completion or error, a [context manager](https://github.com/mdegans/substream/blob/master/substream/tempbucket/__init__.py)
     ensures bucket deletion.
     
     Please be careful with these credentials as cloud resources can be expensive
@@ -99,4 +99,4 @@ pip uninstall substream
     * Speaker identification is currently broken in the long running 
     api for long files, so it's disabled. (this exacerbates the above point)
 
-    * Progress report is unimplemented and jumps from 0 to 100%.
+    * Progress report is unimplemented by the long running API currently.
