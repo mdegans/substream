@@ -30,6 +30,7 @@ setuptools.setup(
         'google-cloud-core>=1.0.1',
         'google-cloud-speech>=1.0.0',
         'google-cloud-storage>=1.16.0',
+        'grpcio>=1.21.1',
     ],
     packages=['substream', 'substream.tempbucket'],
     entry_points={
