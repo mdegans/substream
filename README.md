@@ -15,7 +15,7 @@ pip install substream
 
 Cloud setup:
 
-* [Create a new service account](https://cloud.google.com/iam/docs/creating-managing-service-accounts)
+* [Create a *new* service account](https://cloud.google.com/iam/docs/creating-managing-service-accounts)
     for a ***new*** project dedicated to your recognition job. It must have the 
     following permissions:
     
