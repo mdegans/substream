@@ -97,6 +97,7 @@ pip uninstall substream
     subtitles may have to be manually split using a .srt editor.
     
     * Speaker identification is currently broken in the long running 
-    api for long files, so it's disabled. (this exacerbates the above point)
+    api for long files, so splitting on this is curently disabled.
+    (this exacerbates the above point)
 
     * Progress report is unimplemented by the long running API currently.
