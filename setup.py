@@ -1,10 +1,8 @@
 import setuptools
 
-from substream import __version__
-
 setuptools.setup(
     name='substream',
-    version=__version__,
+    version='0.0.7',
     description='Transcribes audio files to .srt',
     long_description='Uses Google Cloud Speech to Text API to transcribe '
                      'audio files to the .srt format subtitles.',
@@ -27,10 +25,11 @@ setuptools.setup(
         'Programming Language :: Python :: 3.8',
     ],
     python_requires='>=3.6',
-    install_requires=[
-        'google-api-python-client',
-        'google-cloud-speech',
-        'google-cloud-storage',
+    install_requires=[  # todo: tune as low as will go
+        'google-api-python-client>=1.7.9',
+        'google-cloud-core>=1.0.1',
+        'google-cloud-speech>=1.0.0',
+        'google-cloud-storage>=1.16.0',
     ],
     packages=['substream', 'substream.tempbucket'],
     entry_points={
@@ -39,8 +38,6 @@ setuptools.setup(
     author='Michael de Gans',
     project_urls={
         'Bug Reports': 'https://github.com/mdegans/substream/issues',
-        'Say Thanks!': 'By complaining loudly on Twitter at lazy companies who'
-                       "didn't subtitle your media in the first place.",
         'Source': 'https://github.com/mdegans/substream/',
     },
 )
