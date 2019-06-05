@@ -40,9 +40,10 @@ Cloud setup:
     on completion or error, a [context manager](https://github.com/mdegans/substream/blob/master/substream/tempbucket/__init__.py)
     ensures bucket deletion.
     
-    Please be careful with these credentials as cloud resources can be expensive
-    so make sure all buckets are deleted manually even if the app reports they
-    have been successfully deleted.
+    Please be careful with these credentials as cloud resources can be expensive,
+    so make to store them securely if you do store them at all, and make sure all
+    buckets are deleted manually _even if the app reports they have been successfully
+    deleted_.
 
 Full Usage:
 ```shell
