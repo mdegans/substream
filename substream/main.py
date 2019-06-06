@@ -4,7 +4,7 @@ import time
 
 from substream.speech_utils import audio_to_words
 from substream.srt_utils import (
-    records_to_srt, jsonl_to_srt
+    words_to_srt, jsonl_to_srt
 )
 from substream.tempbucket import TemporaryBucket
 
@@ -36,7 +36,7 @@ def main(filename_or_gs_path: str, srt_filename,
             json_filename = srt_filename + '.jsonl'
             backup_if_exists(json_filename)
             with open(json_filename, 'w') as json_file:
-                records_to_srt(
+                words_to_srt(
                     audio_to_words(
                         filename_or_gs_path,
                         language_code=language_code,
@@ -62,7 +62,7 @@ def main(filename_or_gs_path: str, srt_filename,
                     blob.upload_from_filename(filename_or_gs_path)
 
                     gs_path = f'gs://{blob.bucket.name}/{blob.name}'
-                    records_to_srt(
+                    words_to_srt(
                         audio_to_words(
                             gs_path,
                             language_code=language_code,

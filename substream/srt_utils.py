@@ -14,26 +14,26 @@ from substream.speech_utils import (
 
 Subtitle = Sequence[Word]  # see speech_utils.Word
 
-__all__ = ['Subtitle', 'records_to_srt', 'jsonl_to_srt']
+__all__ = ['Subtitle', 'words_to_srt', 'jsonl_to_srt']
 
 
-def records_to_srt(records: Iterable[Word], srt_file: TextIO) -> None:
+def words_to_srt(words: Iterable[Word], srt_file: TextIO) -> None:
     """
     Converts speech_utils.Word objects to a .srt, optionally dumping word
     timing metadata to .jsonl format.
 
-    :arg records: Word objects
+    :arg words: Word objects
                   (eg. a speech_utils.audio_to_words() Iterator)
     :arg srt_file: .srt file to write output to
     """
-    logger = logging.getLogger('records_to_srt')
+    logger = logging.getLogger('words_to_srt')
     logger.info(f'Writing subtitles to {srt_file.name}')
 
     # All that follow are generators until _write_srt. _write_srt pulls the
     # items through the pipeline from the source and 'drives' the pipeline.
 
-    # Build the subtitle sequences from the records.
-    subtitles = _records_to_subtitles(records)
+    # Build the subtitle sequences from the words.
+    subtitles = _words_to_subtitles(words)
 
     # Adjust the subtitles durations.
     subtitles = _adjust_duration(subtitles)
@@ -51,12 +51,12 @@ def jsonl_to_srt(jsonl_file: TextIO, srt_file: TextIO) -> None:
     :arg jsonl_file: input .jsonl file containing word timings
     :arg srt_file: output .srt file
     """
-    records_to_srt(read_words(jsonl_file), srt_file)
+    words_to_srt(read_words(jsonl_file), srt_file)
 
 
-def _records_to_subtitles(words: Iterable[Word],
-                          split_on_pause_gt: float = 1.0,
-                          ) -> Iterator[Subtitle]:
+def _words_to_subtitles(words: Iterable[Word],
+                        split_on_pause_gt: float = 1.0,
+                        ) -> Iterator[Subtitle]:
     """
     :yields: Iterables of speech_utils.Records (sentence subtitles) split on:
         * punctuation (.?!)
