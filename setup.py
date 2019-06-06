@@ -1,11 +1,17 @@
+import os
+
 import setuptools
+
+THIS_DIR = os.path.dirname(os.path.abspath(__file__))
+
+with open(os.path.join(THIS_DIR, 'README.md')) as readme:
+    long_description = readme.read()
 
 setuptools.setup(
     name='substream',
-    version='0.0.9',
+    version='0.1.0',
     description='Transcribes audio files to .srt',
-    long_description='Uses Google Cloud Speech to Text API to transcribe '
-                     'audio files to the .srt format subtitles.',
+    long_description=long_description,
     classifiers=[
         'Development Status :: 3 - Alpha',
 
