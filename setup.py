@@ -12,6 +12,7 @@ setuptools.setup(
     version='0.1.0',
     description='Transcribes audio files to .srt',
     long_description=long_description,
+    long_description_content_type='text/markdown',
     classifiers=[
         'Development Status :: 3 - Alpha',
 
