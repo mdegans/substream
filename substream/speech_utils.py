@@ -13,9 +13,7 @@ from typing import (
 )
 
 from google.cloud import exceptions
-from google.cloud import speech_v1p1beta1 as speech
-from google.cloud.speech_v1p1beta1 import types
-from google.cloud.speech_v1p1beta1.gapic import enums
+from google.cloud import speech
 
 # sample_word = {
 #     'word': (word as Text),
@@ -43,20 +41,24 @@ def audio_to_words(gs_path: Text,
     logger = logging.getLogger('audio_to_words')
 
     _, ext = os.path.splitext(urllib.parse.urlparse(gs_path).path)
-    config = types.RecognitionConfig(
+    config = speech.RecognitionConfig(
         encoding=_detect_audio_encoding(ext),
         language_code=language_code,
         model='video',
         profanity_filter=False,
         enable_word_time_offsets=True,
         enable_automatic_punctuation=True,
+        audio_channel_count=2
     )
     client = speech.SpeechClient(credentials=credentials)
 
+    audio = speech.RecognitionAudio(uri=gs_path)
+
     logger.info(f'Starting transcription of {gs_path} '
                 f'using language {language_code}.')
+
     operation = client.long_running_recognize(
-        config, types.RecognitionAudio(uri=gs_path))
+        config=config, audio=audio)
 
     # Google doesn't implement a bunch of stuff on the specific audio long
     # running operation, but the operation api supports all of this. When
@@ -120,14 +122,14 @@ def _detect_audio_encoding(ext):
     #  Justification: uploading files that aren't audio will still cost money
     #   so it makes sense to check before upload if a file is valid audio.
     if ext == '.flac':
-        encoding = enums.RecognitionConfig.AudioEncoding.FLAC
+        encoding = speech.RecognitionConfig.AudioEncoding.FLAC
     elif ext == '.opus':
-        encoding = enums.RecognitionConfig.AudioEncoding.OGG_OPUS
+        encoding = speech.RecognitionConfig.AudioEncoding.OGG_OPUS
     else:
         logger = logging.getLogger('detect_audio_encoding')
         logger.warning(
             f'Cannot detect audio encoding from extension "{ext}".')
-        encoding = enums.RecognitionConfig.AudioEncoding.ENCODING_UNSPECIFIED
+        encoding = speech.RecognitionConfig.AudioEncoding.ENCODING_UNSPECIFIED
     return encoding
 
 
@@ -149,9 +151,9 @@ def _results_to_words(results: Iterable) -> Iterator[Word]:
             yield {
                 'word': word.word,
                 'start_time': float(word.start_time.seconds) +
-                              word.start_time.nanos / 1000000000,
+                              word.start_time.microseconds / 1000000000,
                 'end_time': float(word.end_time.seconds) +
-                            word.end_time.nanos / 1000000000,
+                            word.end_time.microseconds / 1000000000,
             }  # type: Word
 
 
